@@ -1,0 +1,17 @@
+body {
+  text-align: center;
+}
+
+#content {
+  margin-top: 40px;
+}
+
+#content p {
+  margin-bottom: 30px;
+  font-size: 18px;
+  line-height: 24px;
+}
+
+#up {
+  display: none;
+}
