@@ -16,7 +16,7 @@ $(function(){
   // if we've just received a new file
   var filePath = scraperwiki.readSettings().filePath
   if (filePath) {
-    $('#content').prepend('<p>Uploaded file: <a href="' + filePath + '">' + filePath + '</a></p>')
+    $('#content').prepend('<p>Uploaded file: <b>' + filePath + '</b></p>')
     $('#upload-button').html('Upload another file')
   }
 
