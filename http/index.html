@@ -14,9 +14,26 @@
       <meta http-equiv="cleartype" content="on">
   </head>
   <body>
-
     <div id="content">
-      <label id="upload-button" class="btn btn-primary btn-large" for="file">Upload a file</label>
+  
+    <div id="filter-choice">
+      <label for="filter-select">Choose a filter</label>
+      <select id="filter-select" disabled>
+        <option>Loading filters&hellip;</option>
+      </select>
+    </div>
+
+    <div id="file-upload">
+      <label id="upload-button" class="btn btn-primary btn-large" for="file">
+        Upload a file
+      </label>
+    </div>
+    
+    <div id="file-uploaded">
+      <p>Uploaded file: <b id="file-name">[placeholder]</b></p>
+      <label id="upload-another-button" class="btn btn-primary btn-large" for="file">
+        Upload another file
+      </label>
     </div>
 
     <form id="up" action="../../file/" method="POST" enctype="multipart/form-data">
@@ -26,6 +43,7 @@
       <input type="submit" value="Upload">
     </form>
 
+    </div>    
   </body>
 </html>
 
