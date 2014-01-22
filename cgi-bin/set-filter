@@ -19,6 +19,3 @@ with open("/home/http/allSettings.json", "w") as fd:
 print
 print '{ "success": "true" }'
 
-
-
-

@@ -102,7 +102,6 @@ var fetchLastRunlogEntry = function() {
 var onFilterSelection = function() {
 
   var $select = $(this)
-
   var filterName = $select.children("[value='"+$select.val()+"']").text()
   
   scraperwiki.dataset.name(filterName)
@@ -111,6 +110,7 @@ var onFilterSelection = function() {
   $("#filter-saving").show()
   $(".filter-name").text(filterName)
 
+  // Set allSettings via set-filter cgi-bin endpoint
   $.ajax({
     url: "../cgi-bin/set-filter",
     data: {
@@ -120,7 +120,6 @@ var onFilterSelection = function() {
     dataType: "json"
     
   }).done(function(data) {
-    console.log("Response: ", data)
     $("#filter-choice").hide()
     showUploadButton()
     
@@ -131,8 +130,6 @@ var onFilterSelection = function() {
     $select.attr("disabled", false)
     $("#filter-saving").hide()
   })
-  
-  // TODO: spinny spinny?
 }
 
 var onFileUpload = function(){
