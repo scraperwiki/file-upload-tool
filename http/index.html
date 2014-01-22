@@ -14,18 +14,47 @@
       <meta http-equiv="cleartype" content="on">
   </head>
   <body>
-
     <div id="content">
-      <label id="upload-button" class="btn btn-primary btn-large" for="file">Upload a file</label>
+  
+    <div id="filter-choice">
+      <label for="filter-select">Choose a filter</label>
+      <select id="filter-select" disabled>
+        <option>Loading filters&hellip;</option>
+      </select>
+      
+      <p id="filter-saving">
+        <span class="btn btn-link loading">
+          Saving your selection&hellip;
+        </span>
+      </p>
+    </div>
+    
+    <div id="filter-chosen">
+      <p>Foo.</p>
     </div>
 
-    <form id="up" action="../../file/" method="POST" enctype="multipart/form-data">
-      <input type="file" name="file" size="80" id="file">
+    <div id="file-upload">
+      <label id="upload-button" class="btn btn-primary btn-large" for="file">
+        Upload a <span class="filter-name">file</span>
+      </label>
+    </div>
+    
+    <div id="file-uploaded">
+      <!-- <p>Uploaded file: <b id="file-name">[placeholder]</b></p> -->
+      <label id="upload-another-button" class="btn btn-primary btn-large" for="file">
+        Upload another <span class="filter-name">file</span>
+      </label>
+    </div>
+
+    <!-- ../../file/" -->
+    <form id="up" action="../cgi-bin/upload" method="POST" enctype="multipart/form-data">
+      <input type="file" name="file" id="file">
       <input type="hidden" name="apikey" id="apikey">
       <input type="hidden" name="next" id="next">
       <input type="submit" value="Upload">
     </form>
 
+    </div>    
   </body>
 </html>
 

@@ -1,0 +1,5 @@
+{
+  "dummy-success.py": "succeeding dummy report",
+  "dummy-failure.py": "failing dummy report"
+}
+
