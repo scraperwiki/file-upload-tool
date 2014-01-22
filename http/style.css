@@ -18,6 +18,7 @@ body {
 
 #filter-choice,
 #filter-chosen,
+#filter-saving,
 #file-upload,
 #file-uploaded {
   display: none;

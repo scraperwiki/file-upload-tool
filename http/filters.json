@@ -1,4 +1,5 @@
 {
-  "dummy.py": "A first test dummy filter"
+  "dummy-success.py": "succeeding dummy report",
+  "dummy-failure.py": "failing dummy report"
 }
 

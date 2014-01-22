@@ -100,10 +100,25 @@ var fetchLastRunlogEntry = function() {
 }
 
 var onFilterSelection = function() {
+
+  var $select = $(this)
+
+  var filterName = $select.children("[value='"+$select.val()+"']").text()
+  
+  scraperwiki.dataset.name(filterName)
+    
+  $select.attr("disabled", true)
+  $("#filter-saving").show()
+  $(".filter-name").text(filterName)
+
   $.ajax({
     url: "../cgi-bin/set-filter",
-    data: { filter: $(this).val() },
+    data: {
+      filter: $(this).val(),
+      filterName: filterName
+    },
     dataType: "json"
+    
   }).done(function(data) {
     console.log("Response: ", data)
     $("#filter-choice").hide()
@@ -112,6 +127,9 @@ var onFilterSelection = function() {
   }).fail(function(jqXHR, textStatus, errorThrown) {
     var m = "Problem saving filter selection."
     errorGenericNetworkProblem(m, jqXHR, textStatus, errorThrown)
+    
+    $select.attr("disabled", false)
+    $("#filter-saving").hide()
   })
   
   // TODO: spinny spinny?
@@ -156,6 +174,8 @@ $(function(){
         showUserFilterChoice()
         return
       }
+      
+      $(".filter-name").text(settings["filterName"])
       
       if (runlogEntry == null) {
         // We've never run before

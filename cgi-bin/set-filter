@@ -11,7 +11,8 @@ import json
 
 with open("/home/http/allSettings.json", "w") as fd:
     payload = {
-        "filter": data["filter"].value
+        "filter": data["filter"].value,
+        "filterName": data["filterName"].value
     }
     json.dump(payload, fd)    
 
