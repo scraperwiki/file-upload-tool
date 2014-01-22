@@ -83,6 +83,7 @@ var fetchLastRunlogEntry = function() {
   var q = "SELECT * from _sw_runlog ORDER BY time DESC LIMIT 1"
   scraperwiki.dataset.sql(q).done(function(data) {
     dfd.resolve(data[0])
+    
   }).fail(function(jqXHR, textStatus, errorThrown) {
     if (jqXHR.status == 400 || jqXHR.status == 404) {
       dfd.resolve(null)
@@ -149,9 +150,7 @@ $(function(){
     .done(function(settings, runlogEntry) {
       // Unwrap the 'when'
       settings = settings[0]
-      runlogEntry = runlogEntry[0]
       
-      console.log("settings =", settings)
       if (settings == null || !("filter" in settings)) {
         // Filter hasn't been picked yet
         showUserFilterChoice()
