@@ -6,7 +6,7 @@ $(function(){
 
   // listen for selection of new files
   $('#file').on('change', function(){
-    if( $(this).val() != '' ){
+    if ($(this).val() != '') {
       $('#upload-button').addClass('loading disabled').html("Uploading file&hellip;")
       $('#up :submit').trigger('click')
     }
@@ -21,3 +21,4 @@ $(function(){
   }
 
 })
+
