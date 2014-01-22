@@ -64,11 +64,11 @@ var fetchFiltersAndPopulate = function() {
 
 var fetchSettings = function() {
   return $.ajax({
-    "url": "settings.json",
+    "url": "allSettings.json",
     "dataType": "json"
   }).fail(function(jqXHR, textStatus, errorThrown) {
     if (jqXHR.status == 404) {
-      // if settings.json doesn't exist yet, the user hasn't made a choice.
+      // if allSettings.json doesn't exist yet, the user hasn't made a choice.
       showUserFilterChoice()
       return
     }
@@ -99,9 +99,21 @@ var fetchLastRunlogEntry = function() {
 }
 
 var onFilterSelection = function() {
-  console.log("Hi")
-  $("#filter-choice").hide()
-  showUploadButton()
+  $.ajax({
+    url: "../cgi-bin/set-filter",
+    data: { filter: $(this).val() },
+    dataType: "json"
+  }).done(function(data) {
+    console.log("Response: ", data)
+    $("#filter-choice").hide()
+    showUploadButton()
+    
+  }).fail(function(jqXHR, textStatus, errorThrown) {
+    var m = "Problem saving filter selection."
+    errorGenericNetworkProblem(m, jqXHR, textStatus, errorThrown)
+  })
+  
+  // TODO: spinny spinny?
 }
 
 var onFileUpload = function(){

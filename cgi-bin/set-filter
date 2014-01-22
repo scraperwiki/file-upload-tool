@@ -1,0 +1,23 @@
+#! /usr/bin/env python
+
+import cgi
+import cgitb
+# TODO(pwaller): Replace this with a different error reporting mechanism
+# e.g, make an excepthook
+cgitb.enable()
+data = cgi.FieldStorage()
+
+import json
+
+with open("/home/http/allSettings.json", "w") as fd:
+    payload = {
+        "filter": data["filter"].value
+    }
+    json.dump(payload, fd)    
+
+print
+print '{ "success": "true" }'
+
+
+
+

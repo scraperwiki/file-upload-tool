@@ -5,8 +5,7 @@ os.chdir("/home")
 
 import cgi
 import cgitb
-# TODO(pwaller): Replace this with a different error reporting mechanism
-# e.g, make an excepthook
+
 cgitb.enable()
 data = cgi.FieldStorage()
 
