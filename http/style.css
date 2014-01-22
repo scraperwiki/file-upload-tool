@@ -17,6 +17,7 @@ body {
 }
 
 #filter-choice,
+#filter-chosen,
 #file-upload,
 #file-uploaded {
   display: none;

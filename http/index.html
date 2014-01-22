@@ -22,22 +22,27 @@
         <option>Loading filters&hellip;</option>
       </select>
     </div>
+    
+    <div id="filter-chosen">
+      <p>Foo.</p>
+    </div>
 
     <div id="file-upload">
       <label id="upload-button" class="btn btn-primary btn-large" for="file">
-        Upload a file
+        Upload a <span class="filter-name">file</span>
       </label>
     </div>
     
     <div id="file-uploaded">
-      <p>Uploaded file: <b id="file-name">[placeholder]</b></p>
+      <!-- <p>Uploaded file: <b id="file-name">[placeholder]</b></p> -->
       <label id="upload-another-button" class="btn btn-primary btn-large" for="file">
-        Upload another file
+        Upload another <span class="filter-name">file</span>
       </label>
     </div>
 
-    <form id="up" action="../../file/" method="POST" enctype="multipart/form-data">
-      <input type="file" name="file" size="80" id="file">
+    <!-- ../../file/" -->
+    <form id="up" action="../cgi-bin/upload" method="POST" enctype="multipart/form-data">
+      <input type="file" name="file" id="file">
       <input type="hidden" name="apikey" id="apikey">
       <input type="hidden" name="next" id="next">
       <input type="submit" value="Upload">

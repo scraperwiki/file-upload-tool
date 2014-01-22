@@ -1,0 +1,42 @@
+#! /usr/bin/env python
+
+import os
+os.chdir("/home")
+
+import cgi
+import cgitb
+# TODO(pwaller): Replace this with a different error reporting mechanism
+# e.g, make an excepthook
+cgitb.enable()
+data = cgi.FieldStorage()
+
+import os
+from os.path import join as pjoin
+
+import scraperwiki.runlog; scraperwiki.runlog.setup()
+
+def main():
+
+
+    # Send the browser back to the index page (the UI), and set ?uploaded
+    # so that the javascript can tell what just happened.
+    url = (os.environ["SERVER_NAME"] + 
+           os.environ["REQUEST_URI"].replace("cgi-bin/upload", "http/"))
+
+    print "Status: 302"
+    print "Location: https://{0}?uploaded".format(url)
+
+    # End of headers
+    print
+
+    path = pjoin("/home", "incoming", data["file"].filename)
+    with open(path, "w") as fd:
+       fd.write(data["file"].value)
+       
+    print "Hi, we've uploaded", path
+    
+    #cgi.test()
+    
+
+if __name__ == "__main__":
+    main()
