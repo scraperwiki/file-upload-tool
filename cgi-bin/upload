@@ -9,7 +9,10 @@ import cgitb
 cgitb.enable()
 data = cgi.FieldStorage()
 
+import imp
+import json
 import os
+
 from os.path import join as pjoin
 
 import scraperwiki.runlog; scraperwiki.runlog.setup()
@@ -34,7 +37,18 @@ def main():
        
     print "Hi, we've uploaded", path
     
-    #cgi.test()
+    with open("/home/http/allSettings.json") as fd:
+        all_settings = json.load(fd)
+
+    # Discard .py extension
+    module_name, _, _ = all_settings["filter"].partition(".")
+
+    # Import the specified filter, without searching `sys.path`.
+    module_info = imp.find_module(module_name, ["/home/tool/filters"])
+    module = imp.load_module(module_name, *module_info)
+
+    # Invoke its main() function with the path of the file to be processed
+    module.main(path)
     
 
 if __name__ == "__main__":
