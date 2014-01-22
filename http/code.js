@@ -134,10 +134,10 @@ var onFilterSelection = function() {
 
 var onFileUpload = function(){
   if ($(this).val() != '') {
-    $('#upload-button')
+    $('#upload-button,#upload-another-button')
       .addClass('loading disabled')
       .html("Uploading file&hellip;")
-    $('#up :submit').trigger('click')
+    setTimeout(function() { $('#up :submit').trigger('click') }, 0)
   }
 }
 
