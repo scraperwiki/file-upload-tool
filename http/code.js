@@ -31,7 +31,7 @@ var errorGenericNetworkProblem = function(msg, jqXHR, textStatus, errorThrown) {
   // if it is persistent.
   scraperwiki.alert("Oops, something went wrong.",
     msg+" Try again later and please report it "+
-    "if the problem persists. Status: " + jqXHR.status, "error")
+    "if the problem persists. <br>Status: " + jqXHR.status + ", "+ textStatus + ", "+errorThrown, "error")
 }
 
 var errorFromRunlog = function(runlogEntry) {
