@@ -68,8 +68,11 @@ var fetchSettings = function() {
     "dataType": "json"
   }).fail(function(jqXHR, textStatus, errorThrown) {
     if (jqXHR.status == 404) {
-      // if allSettings.json doesn't exist yet, the user hasn't made a choice.
+      // If allSettings.json doesn't exist yet, the user hasn't made
+      // a choice...
       showUserFilterChoice()
+      // ... and we need to install the Python requirements.
+      runSetup()
       return
     }
     var m = "Settings couldn't be loaded."
@@ -97,6 +100,15 @@ var fetchLastRunlogEntry = function() {
   })
   
   return dfd.promise()
+}
+
+// Runs setup.sh in the box, via the exec endpoint. Generally we
+// expect this to be only run once, but it is not harmful to run
+// multiple times, just a bit slow.
+// It would be bad to upload a file before this script finishes,
+// but we don't yet check. :todo:(drj/dragon) make it work.
+var runSetup = function() {
+  scraperwiki.exec("/home/tool/setup.sh")
 }
 
 var onFilterSelection = function() {

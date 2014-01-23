@@ -11,11 +11,13 @@ from collections import OrderedDict
 
 import xypath
 from xypath import DOWN
+import scraperwiki
 
 
-
-def main(input_filename):
-    raise NotImplementedError
+def main(filename):
+    with open(filename, 'rb') as f:
+        rows = list(process(f))
+        scraperwiki.sql.save(unique_keys=["_id"], data=rows)
 
 
 def process(excel_fobj):
@@ -75,5 +77,5 @@ if __name__ == '__main__':
         for filename in sys.argv[1:]:
             main(filename)
     else:
-        print("Usage: {} <customer satisfaction.xls>".format(sys.argv[0]))
+        print("Usage: {} <filename.xls>".format(sys.argv[0]))
         sys.exit(1)

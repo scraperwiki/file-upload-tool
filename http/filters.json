@@ -1,5 +1,8 @@
 {
   "dummy-success.py": "succeeding dummy report",
-  "dummy-failure.py": "failing dummy report"
+  "dummy-failure.py": "failing dummy report",
+  "dvla_customer_satisfaction.py": "DVLA customer satisfaction spreadsheet",
+  "dvla_service_volumetrics.py": "DVLA service volumetrics spreadsheet",
+  "dvla_transaction_failures.py": "DVLA transaction failures spreadsheet"
 }
 
