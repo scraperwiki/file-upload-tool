@@ -49,6 +49,8 @@ def main():
 
     # Invoke its main() function with the path of the file to be processed
     module.main(path)
+
+    scraperwiki.status('ok')
     
 
 if __name__ == "__main__":
