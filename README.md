@@ -6,6 +6,16 @@ The tool uses *filters* to do the extraction. Filters are written in Python, and
 
 ## Developing a filter
 
-Currently only Python filters are supported. They should be self-contained Python files, stored in the `/filter` directory. Each filter should contain a `main()` function which accepts a single argument: a filename to extract (eg: `/home/incoming/some_file.xls`).
+Brief version:
 
-Filters should have unit tests in the `/test` directory, and can store fixtures in the `/fixture` directory. If you're a third-party developer writing a new filter, please submit a pull request.
+If you're a third-party developer writing a new filter, please
+submit a pull request.
+
+Currently only Python filters are supported. They should
+be self-contained Python files, stored in the `filter`
+directory. Each filter should contain a `main()` function which
+accepts a single argument: a filename to extract (for example:
+`/home/incoming/some_file.xls`). Put tests in `filter/tests`.
+
+(for more see `filter/README.md`)
+
