@@ -1,0 +1,14 @@
+# Use pip install -r requirements.txt to install
+#
+# These are the requirements for the filters. Maybe it should go
+# up one level?
+#
+# You can install a specific tag from github like this:
+# -e git+git@github.com:scraperwiki/xypath.git@1.2.3#egg=xypath
+
+# TESTING ONLY
+nose
+mock>=1.0.1
+
+scraperwiki>=0.3.2
+-e git+https://github.com/scraperwiki/xypath@1.0.3#egg=xypath
