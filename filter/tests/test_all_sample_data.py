@@ -1,8 +1,8 @@
-
+import datetime
 import imp
 import subprocess
 
-from nose.tools import assert_greater, assert_true
+from nose.tools import assert_equal, assert_greater, assert_true
 from os import listdir
 from os.path import abspath, dirname, join
 
@@ -79,12 +79,31 @@ def _test_process(script_name, fixture_name):
         rows = SmallReprList(module.process(fd))
 
     yield _test_rows_have_id, module_name, rows
+    yield _test_rows_have_timestamp, module_name, rows
+    yield _test_rows_have_valid_timestamp, module_name, rows
     yield _test_have_any_rows, module_name, rows
+    yield _test_all_rows_have_same_keys, module_name, rows
 
 
 def _test_rows_have_id(module_name, rows):
     assert_true(all("_id" in row for row in rows))
 
 
+def _test_rows_have_timestamp(module_name, rows):
+    assert_true(all("_timestamp" in row for row in rows))
+
+
+def _test_rows_have_valid_timestamp(module_name, rows):
+    def parse(timestamp):
+        assert_equal(type(timestamp), datetime.datetime)
+        return True
+    assert_true(all(parse(row["_timestamp"]) for row in rows))
+
+
 def _test_have_any_rows(module_name, rows):
     assert_greater(len(rows), 0)
+
+
+def _test_all_rows_have_same_keys(module_name, rows):
+    expected = set(rows[0].keys())
+    assert_true(all(expected == set(row.keys()) for row in rows))
