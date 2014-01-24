@@ -91,14 +91,18 @@ def get_channel(transaction_cell):
     raise RuntimeError("Failed to find channel: {}".format(transaction_cell))
 
 
-def make_row(transaction_name, date_text, volume, service, channel):
+def make_row(transaction, date_text, volume, service, channel):
     volume = convert_volume(volume)
     date_time = convert_date_text(date_text)
+    args = date_time, service, transaction, channel
+    _id = "{0}|{1}|{2}|{3}".format(*args).replace(" ", "-")
+
     return OrderedDict([
+        ("_id", _id),
         ("_timestamp", date_time),
         ("service", service),
         ("volume", volume),
-        ("transaction", transaction_name),
+        ("transaction", transaction),
         ("channel", channel),
     ])
 

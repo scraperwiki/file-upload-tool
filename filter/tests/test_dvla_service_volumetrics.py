@@ -28,7 +28,7 @@ class ServiceVolumetricsTest(unittest.TestCase):
     def test_correct_keys(self):
         for row in self.rows:
             assert_equal(
-                set(['_timestamp', 'service',
+                set(['_id', '_timestamp', 'service',
                      'volume', 'transaction', 'channel']),
                 set(row.keys()))
 
