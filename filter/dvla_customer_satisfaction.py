@@ -14,6 +14,10 @@ import xypath
 import scraperwiki
 
 
+def FilterError(Exception):
+    pass
+
+
 def main(filename):
     with open(filename, 'rb') as f:
         rows = list(process(f))
@@ -26,6 +30,21 @@ def process(excel_fobj):
     date_cells = get_date_cells(table)
     tax_disc_header = table.filter('Relicensing').assert_one()
     sorn_header = table.filter('SORN').assert_one()
+
+    tax_disc_header = table.filter('Relicensing').assert_one()
+    sorn_header = table.filter('SORN').assert_one()
+    tax_disc_header = table.filter('Relicensing')
+    sorn_header = table.filter('SORN')
+
+    try:
+        tax_disc_header.assert_one()
+    except AssertionError:
+        raise FilterError("We expected to find exactly one spreadsheet cell with the value 'Relicensing'. We found {}".format(len(tax_disc_header)))
+
+    try:
+        sorn_header.assert_one()
+    except AssertionError:
+        raise FilterError("We expected to find exactly one spreadsheet cell with the value 'SORN'. We found {}.".format(len(sorn_header)))
 
     for date_cell in date_cells:
         yield process_date_row(date_cell, tax_disc_header, sorn_header)
