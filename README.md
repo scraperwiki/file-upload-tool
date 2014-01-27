@@ -13,9 +13,16 @@ submit a pull request.
 
 Currently only Python filters are supported. They should
 be self-contained Python files, stored in the `filter`
-directory. Each filter should contain a `main()` function which
-accepts a single argument: a filename to extract (for example:
-`/home/incoming/some_file.xls`). Put tests in `filter/test`.
+directory.
 
-(for more see `filter/README.md`)
+Each filter should contain a `main()` function which
+accepts a single argument: a filename to extract (for example:
+`/home/incoming/some_file.xls`).
+
+Filters should have unit tests, stored in `filter/test`.
+
+Once you've completed your filter, make sure to list it,
+along with its human-readable name, in `http/filters.json`.
+
+For more information about filters, see `filter/README.md`.
 
