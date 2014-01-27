@@ -15,7 +15,7 @@ Currently only Python filters are supported. They should
 be self-contained Python files, stored in the `filter`
 directory. Each filter should contain a `main()` function which
 accepts a single argument: a filename to extract (for example:
-`/home/incoming/some_file.xls`). Put tests in `filter/tests`.
+`/home/incoming/some_file.xls`). Put tests in `filter/test`.
 
 (for more see `filter/README.md`)
 
