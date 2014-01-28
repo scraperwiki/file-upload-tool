@@ -39,7 +39,7 @@ var showFormattingError = function(msg) {
 }
 
 var errorFromRunlog = function(runlogEntry) {
-  var exception = runlogEntry.exception_value
+  var exception = runlogEntry.exception_value.replace(/u(["'])/g, '$1')
   var regex = /^(MultipleCellsAssertionError|NoCellsAssertionError)\(['"](.+)['"],\)$/
   var matches = exception.match(regex)
   if (matches) {
