@@ -16,6 +16,7 @@ body {
   display: none;
 }
 
+#success,
 #formatting-error,
 #filter-choice,
 #filter-chosen,
