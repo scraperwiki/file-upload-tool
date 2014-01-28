@@ -31,5 +31,9 @@ body {
 
 #formatting-error .message {
   font-size: 21px;
+}
+
+#formatting-error
+, #success {
   margin-bottom: 50px;
 }

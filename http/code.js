@@ -208,7 +208,7 @@ $(function(){
       
       if (runlogEntry.success) {      
         if (userJustUploadedSomething) {
-          scraperwiki.alert("Uploaded successfully.", "Have a biscuit", false)
+          $("#success").show()
         }
       } else {
         errorFromRunlog(runlogEntry)
