@@ -136,7 +136,7 @@ def get_date_cells(table):
 
 
 def get_transaction_cells(table):
-    transaction_header = table.filter('Transaction').assert_one()
+    transaction_header = table.filter_one('Transaction')
 
     def not_empty(cell):
         return (cell.value.strip() != '' if isinstance(cell.value, basestring)
