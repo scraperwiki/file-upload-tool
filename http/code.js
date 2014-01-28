@@ -55,6 +55,22 @@ var errorFromRunlog = function(runlogEntry) {
     return
   }
 
+  var regex = /^(ReadError)\(['"](.+)['"],\)$/
+  var matches = exception.match(regex)
+  if (matches) {
+    var msg = "That file was not a spreadsheet"
+
+    var mimeTypeRegex = /MIME type: "(.*)"/
+    var mimeTypeMatches = matches[2].match(mimeTypeRegex)
+    if (mimeTypeMatches) {
+      msg += " (we detected file type: " + mimeTypeMatches[1] + ")."
+    } else {
+      msg += "."
+    } 
+    showFormattingError(msg)
+    return
+  }
+
   // TODO We should show stack trace here too
   scraperwiki.alert("An error occurred whilst processing the file.", exception, "error")
 }
