@@ -34,8 +34,20 @@ var errorGenericNetworkProblem = function(msg, jqXHR, textStatus, errorThrown) {
     "if the problem persists. <br>Status: " + jqXHR.status + ", "+ textStatus + ", "+errorThrown, "error")
 }
 
+var showFormattingError = function(msg) {
+  $("#formatting-error").show().find(".message").text(msg)
+}
+
 var errorFromRunlog = function(runlogEntry) {
-  scraperwiki.alert("An error occurred whilst processing the file.", runlogEntry.exception_value, "error")
+  var exception = runlogEntry.exception_value
+  var regex = /^(MultipleCellsAssertionError|NoCellsAssertionError)\(['"](.+)['"],\)$/
+  var matches = exception.match(regex)
+  if (matches) {
+    showFormattingError(matches[2])
+  } else {
+    // TODO We should show stack trace here too
+    scraperwiki.alert("An error occurred whilst processing the file.", exception, "error")
+  }
 }
 
 var fetchFiltersAndPopulate = function() {

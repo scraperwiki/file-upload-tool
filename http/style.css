@@ -16,6 +16,7 @@ body {
   display: none;
 }
 
+#formatting-error,
 #filter-choice,
 #filter-chosen,
 #filter-saving,
@@ -24,3 +25,11 @@ body {
   display: none;
 }
 
+#formatting-error h1 {
+  font-size: 32px;
+}
+
+#formatting-error .message {
+  font-size: 21px;
+  margin-bottom: 50px;
+}
