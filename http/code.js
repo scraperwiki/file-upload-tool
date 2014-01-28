@@ -71,8 +71,10 @@ var errorFromRunlog = function(runlogEntry) {
     return
   }
 
+
+  traceback = "<pre>" + runlogEntry.traceback + "</pre>"
   // TODO We should show stack trace here too
-  scraperwiki.alert("An error occurred whilst processing the file.", exception, "error")
+  scraperwiki.alert("An error occurred whilst processing the file.", traceback, "error")
 }
 
 var fetchFiltersAndPopulate = function() {
