@@ -1,8 +1,3 @@
-var showUserFilterChoice = function() {
-  $("#filter-choice").show()
-  
-}
-
 // Move this upstream.
 scraperwiki.readSettings = function() {
   try {
@@ -15,6 +10,20 @@ scraperwiki.readSettings = function() {
     } catch (e) {}    
   }
   return null
+}
+
+var addIndefiniteArticle = function(string) {
+  // Returns the given string (eg: "banana") with
+  // a preceding indefinite article (eg: "a banana").
+  if(/^[aeiouhy]/i.test(string)){
+    return 'an ' + string
+  } else {
+    return 'a ' + string
+  }
+}
+
+var showUserFilterChoice = function() {
+  $("#filter-choice").show()
 }
 
 var showUploadButton = function() {
@@ -36,6 +45,12 @@ var errorGenericNetworkProblem = function(msg, jqXHR, textStatus, errorThrown) {
 
 var showFormattingError = function(msg) {
   $("#formatting-error").show().find(".message").text(msg)
+}
+
+var showUnexpectedError = function(exceptionType, traceback){
+  $('#unexpected-error').show()
+  $('#unexpected-error .exception-type').text(exceptionType)
+  $('#unexpected-error pre').text(traceback)
 }
 
 var errorFromRunlog = function(runlogEntry) {
@@ -71,10 +86,13 @@ var errorFromRunlog = function(runlogEntry) {
     return
   }
 
-
-  traceback = "<pre>" + runlogEntry.traceback + "</pre>"
-  // TODO We should show stack trace here too
-  scraperwiki.alert("An error occurred whilst processing the file.", traceback, "error")
+  var exceptionType = "an unexpected error"
+  var exceptionTypeRegex = /^(\w+)\(.*\)$/
+  var exceptionTypeMatches = exception.match(exceptionTypeRegex)
+  if(exceptionTypeMatches){
+    exceptionType = addIndefiniteArticle(exceptionTypeMatches[1])
+  }
+  showUnexpectedError(exceptionType, runlogEntry.traceback)
 }
 
 var fetchFiltersAndPopulate = function() {
@@ -201,6 +219,11 @@ $(function(){
   // listen for selection of new files
   $('#file').on('change', onFileUpload)  
   $("#filter-select").on("change", onFilterSelection)
+
+  // listen for clicks on "more details" link in exception messages
+  $(document).on('click', '#unexpected-error .more', function(){
+    $(this).parent().siblings('pre').slideToggle()
+  })
 
   // window.readSettings().filePath will be set
   // if we've just received a new file

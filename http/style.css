@@ -18,6 +18,7 @@ body {
 
 #success,
 #formatting-error,
+#unexpected-error,
 #filter-choice,
 #filter-saving,
 #file-upload,
@@ -25,15 +26,29 @@ body {
   display: none;
 }
 
-#formatting-error h1 {
+#formatting-error h1,
+#unexpected-error h1 {
   font-size: 32px;
 }
 
-#formatting-error .message {
+#formatting-error .message,
+#unexpected-error .message {
   font-size: 21px;
 }
 
-#formatting-error
-, #success {
+#formatting-error,
+#unexpected-error,
+#success {
   margin-bottom: 50px;
+}
+
+#unexpected-error pre {
+  display: none;
+  text-align: left;
+  width: 600px;
+  margin: 0 auto;
+}
+
+#unexpected-error .more {
+  cursor: pointer;
 }

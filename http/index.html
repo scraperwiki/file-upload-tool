@@ -15,20 +15,27 @@
   </head>
   <body>
     <div id="content">
-  
+
     <div id="filter-choice">
       <label for="filter-select">Choose a filter</label>
       <select id="filter-select" disabled>
         <option>Loading filters&hellip;</option>
       </select>
-      
+
       <p id="filter-saving">
         <span class="btn btn-link loading">
           Saving your selection&hellip;
         </span>
       </p>
     </div>
-    
+
+    <div id="unexpected-error">
+      <img src="fail.png" alt="" width="64" height="64"></img>
+      <h1>Sorry! An unexpected error occurred.</h1>
+      <p class="message">Your file was not uploaded because we encountered <span class="exception-type">an error</span>. <a class="more">Show details &raquo;</a></p>
+      <pre></pre>
+    </div>
+
     <div id="formatting-error">
       <img src="error.png" alt="" width="64" height="64"></img>
       <h1>Your spreadsheet was not uploaded because it was incorrectly formatted.</h1>
