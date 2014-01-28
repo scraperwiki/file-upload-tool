@@ -40,14 +40,23 @@ var showFormattingError = function(msg) {
 
 var errorFromRunlog = function(runlogEntry) {
   var exception = runlogEntry.exception_value.replace(/u(["'])/g, '$1')
+
   var regex = /^(MultipleCellsAssertionError|NoCellsAssertionError)\(['"](.+)['"],\)$/
   var matches = exception.match(regex)
   if (matches) {
     showFormattingError(matches[2])
-  } else {
-    // TODO We should show stack trace here too
-    scraperwiki.alert("An error occurred whilst processing the file.", exception, "error")
+    return
+  } 
+
+  var regex = /^(TableError)\(['"](.+)['"],\)$/
+  var matches = exception.match(regex)
+  if (matches) {
+    showFormattingError(matches[2].replace('No table called', 'No worksheet called'))
+    return
   }
+
+  // TODO We should show stack trace here too
+  scraperwiki.alert("An error occurred whilst processing the file.", exception, "error")
 }
 
 var fetchFiltersAndPopulate = function() {
