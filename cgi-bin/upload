@@ -6,10 +6,10 @@ os.chdir("/home")
 import scraperwiki.runlog; scraperwiki.runlog.setup()
 
 import cgi
-import cgitb
 
-cgitb.enable()
-data = cgi.FieldStorage()
+# (Enable these for debugging:)
+# import cgitb
+# cgitb.enable()
 
 import imp
 import json
@@ -17,6 +17,9 @@ import os
 import subprocess
 
 from os.path import join as pjoin
+
+# Get data from the POST request
+data = cgi.FieldStorage()
 
 def main():
 
@@ -32,6 +35,7 @@ def main():
     url = (os.environ["SERVER_NAME"] +
            os.environ["REQUEST_URI"].replace("cgi-bin/upload", "http/"))
 
+    # (Disable these for debugging:)
     print "Status: 302"
     print "Location: https://{0}?uploaded".format(url)
 
