@@ -11,4 +11,4 @@ nose
 mock>=1.0.1
 
 scraperwiki>=0.3.2
--e git+https://github.com/scraperwiki/xypath@1.0.3#egg=xypath
+-e git+https://github.com/scraperwiki/xypath@1.0.5#egg=xypath
