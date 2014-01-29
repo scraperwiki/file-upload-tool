@@ -24,5 +24,6 @@ Filters should have unit tests, stored in `filter/test`.
 Once you've completed your filter, make sure to list it,
 along with its human-readable name, in `http/filters.json`.
 
-For more information about filters, see `filter/README.md`.
+For more information about how filters should work, and how 
+you can write and run unit tests for them, see `filter/README.md`.
 
