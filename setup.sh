@@ -8,4 +8,4 @@ do
 done
 
 cd
-pip install -q --user -r tool/requirements.txt
+pip install -q --upgrade --user -r tool/requirements.txt

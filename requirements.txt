@@ -1,4 +1,5 @@
 # Need to pin the version of messytables, because xypath doesn't
 # pin it (which is a bug in xypath).
 -e git://github.com/scraperwiki/messytables.git@sw-1.2.0#egg=messytables
+scraperwiki==0.3.8
 -r filter/requirements.txt
