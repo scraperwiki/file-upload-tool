@@ -16,3 +16,28 @@ Interface (see `cgi-bin/upload` which calls these filters)
 - Takes a filename of a spreadsheet (or similar)
 - Saves the data to the ScraperWiki data store
 - Probably invokes `process` to do so
+
+Testing
+-------
+
+Each filter should have a test file, stored in `filter/test`.
+You should be able to run the test files using `nosetests`. 
+You will first need to create a virtual environment and then
+pip install the filter requirements file.
+
+```shell
+cd filter/test
+virtualenv venv # creates a virtualenv in the ./venv directory
+. venv/bin/activate
+pip install nose -I
+deactivate # need to refresh the virtualenv for correct `nose` to be used 
+. venv/bin/activate
+nosetests
+```
+
+Running the tests thereafter is as simple as doing:
+
+```shell
+cd filter/test
+nosetests
+```
