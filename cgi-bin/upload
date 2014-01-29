@@ -3,28 +3,39 @@
 import os
 os.chdir("/home")
 
-import cgi
-import cgitb
+import scraperwiki.runlog; scraperwiki.runlog.setup()
 
-cgitb.enable()
-data = cgi.FieldStorage()
+import cgi
+
+# (Enable these for debugging:)
+# import cgitb
+# cgitb.enable()
 
 import imp
 import json
 import os
+import subprocess
 
 from os.path import join as pjoin
 
-import scraperwiki.runlog; scraperwiki.runlog.setup()
+# Get data from the POST request
+data = cgi.FieldStorage()
 
 def main():
 
+    # Install Python dependencies again
+    # (just in case they've changed since last time)
+    # We don't mind too much if this fails, since
+    # the dependencies should already have been
+    # installed by runSetup() in code.js
+    subprocess.call(['/home/tool/setup.sh'])
 
     # Send the browser back to the index page (the UI), and set ?uploaded
     # so that the javascript can tell what just happened.
-    url = (os.environ["SERVER_NAME"] + 
+    url = (os.environ["SERVER_NAME"] +
            os.environ["REQUEST_URI"].replace("cgi-bin/upload", "http/"))
 
+    # (Disable these for debugging:)
     print "Status: 302"
     print "Location: https://{0}?uploaded".format(url)
 
@@ -34,9 +45,9 @@ def main():
     path = pjoin("/home", "incoming", data["file"].filename)
     with open(path, "w") as fd:
        fd.write(data["file"].value)
-       
+
     print "Hi, we've uploaded", path
-    
+
     with open("/home/http/allSettings.json") as fd:
         all_settings = json.load(fd)
 
@@ -51,7 +62,7 @@ def main():
     module.main(path)
 
     scraperwiki.status('ok')
-    
+
 
 if __name__ == "__main__":
     main()

@@ -15,22 +15,37 @@
   </head>
   <body>
     <div id="content">
-  
+
     <div id="filter-choice">
       <label for="filter-select">Choose a filter</label>
       <select id="filter-select" disabled>
         <option>Loading filters&hellip;</option>
       </select>
-      
+
       <p id="filter-saving">
         <span class="btn btn-link loading">
           Saving your selection&hellip;
         </span>
       </p>
     </div>
-    
-    <div id="filter-chosen">
-      <p>Foo.</p>
+
+    <div id="unexpected-error">
+      <img src="fail.png" alt="" width="64" height="64"></img>
+      <h1>Sorry! An unexpected error occurred.</h1>
+      <p class="message">Your file was not uploaded because we encountered <span class="exception-type">an error</span>. <a class="more">Show details &raquo;</a></p>
+      <pre></pre>
+    </div>
+
+    <div id="formatting-error">
+      <img src="error.png" alt="" width="64" height="64"></img>
+      <h1>Your spreadsheet was not uploaded because it was incorrectly formatted.</h1>
+      <p class="message"></p>
+    </div>
+
+    <div id="success">
+      <img src="success.png" alt="" width="64" height="64"></img>
+      <h1>File uploaded successfully</h1>
+      <p class="message"></p>
     </div>
 
     <div id="file-upload">
@@ -38,7 +53,7 @@
         Upload a <span class="filter-name">file</span>
       </label>
     </div>
-    
+
     <div id="file-uploaded">
       <!-- <p>Uploaded file: <b id="file-name">[placeholder]</b></p> -->
       <label id="upload-another-button" class="btn btn-primary btn-large" for="file">
@@ -54,7 +69,7 @@
       <input type="submit" value="Upload">
     </form>
 
-    </div>    
+    </div>
   </body>
 </html>
 

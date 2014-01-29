@@ -24,8 +24,8 @@ def process(excel_fobj):
     table = xypath.Table.from_file_object(excel_fobj, table_name='Table')
 
     date_cells = get_date_cells(table)
-    tax_disc_header = table.filter('Relicensing').assert_one()
-    sorn_header = table.filter('SORN').assert_one()
+    tax_disc_header = table.filter_one('Relicensing')
+    sorn_header = table.filter_one('SORN')
 
     for date_cell in date_cells:
         yield process_date_row(date_cell, tax_disc_header, sorn_header)
@@ -52,8 +52,8 @@ def process_date_row(date_cell, tax_disc_header, sorn_header):
 
 
 def get_date_cells(table):
-    start_cell = table.filter('Date of Liability').assert_one()
-    stop_cell = table.filter('Grand Total').assert_one()
+    start_cell = table.filter_one('Date of Liability')
+    stop_cell = table.filter_one('Grand Total')
 
     date_cells = start_cell.fill(
         xypath.DOWN,

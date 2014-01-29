@@ -25,10 +25,10 @@ def process(excel_fobj):
         excel_fobj, table_name='Transaction Failures')
 
     def get_below(header_text):
-        return table.filter(header_text).assert_one().fill(
+        return table.filter_one(header_text).fill(
             DOWN, stop_before=lambda cell: cell.y == last_row)
 
-    last_row = table.filter('Total Errors').assert_one().y
+    last_row = table.filter_one('Total Errors').y
 
     description_cells = get_below('Description')
     reason_cells = get_below('Reason for Failure')
