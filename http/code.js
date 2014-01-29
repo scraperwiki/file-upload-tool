@@ -206,7 +206,7 @@ var onFileUpload = function(){
     $('#upload-button,#upload-another-button')
       .addClass('loading disabled')
       .html("Uploading file&hellip;")
-    setTimeout(function() { $('#up :submit').trigger('click') }, 0)
+    setTimeout(function() { $('#up :submit').trigger('click') }, 250)
   }
 }
 
