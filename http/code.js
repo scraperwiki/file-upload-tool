@@ -70,7 +70,7 @@ var errorFromRunlog = function(runlogEntry) {
     return
   }
 
-  var regex = /^(ReadError)\(['"](.+)['"],\)$/
+  var regex = /^(ReadError)\(['"]Did not recognise(.+)['"],\)$/
   var matches = exception.match(regex)
   if (matches) {
     var msg = "That file was not a spreadsheet"
@@ -83,6 +83,13 @@ var errorFromRunlog = function(runlogEntry) {
       msg += "."
     }
     showFormattingError(msg)
+    return
+  }
+
+  var regex = /^(ReadError)\(['"].+Workbook is encrypted.+['"],\)$/
+  var matches = exception.match(regex)
+  if (matches) {
+    showFormattingError('That Excel file was password protected.')
     return
   }
 
