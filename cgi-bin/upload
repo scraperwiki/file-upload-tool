@@ -3,6 +3,8 @@
 import os
 os.chdir("/home")
 
+import scraperwiki.runlog; scraperwiki.runlog.setup()
+
 import cgi
 import cgitb
 
@@ -16,11 +18,14 @@ import subprocess
 
 from os.path import join as pjoin
 
-import scraperwiki.runlog; scraperwiki.runlog.setup()
-
 def main():
-    subprocess.call(['/home/tool/setup.sh'])
 
+    # Install Python dependencies again
+    # (just in case they've changed since last time)
+    # We don't mind too much if this fails, since
+    # the dependencies should already have been
+    # installed by runSetup() in code.js
+    subprocess.call(['/home/tool/setup.sh'])
 
     # Send the browser back to the index page (the UI), and set ?uploaded
     # so that the javascript can tell what just happened.
