@@ -56,9 +56,7 @@ def up_to_first_value(cell):
     """
     If this cell is empty, look up one cell. Return the first non-empty cell.
     """
-    print(cell)
     if not isinstance(cell.value, basestring) or cell.value.strip() != '':
-        print("REturning {}".format(cell))
         return cell
     else:
         return up_to_first_value(cell.shift(0, -1))
@@ -68,7 +66,6 @@ def get_service(transaction_cell):
     service_cell = transaction_cell.shift(-1, 0)  # 1 column left
 
     service_text = up_to_first_value(service_cell).value.lower()
-    print("service_text: {}".format(service_text))
     if 'relicensing' in service_text:
         return 'tax-disc'
 
@@ -94,14 +91,18 @@ def get_channel(transaction_cell):
     raise RuntimeError("Failed to find channel: {}".format(transaction_cell))
 
 
-def make_row(transaction_name, date_text, volume, service, channel):
+def make_row(transaction, date_text, volume, service, channel):
     volume = convert_volume(volume)
     date_time = convert_date_text(date_text)
+    args = date_time, service, transaction, channel
+    _id = "{0}|{1}|{2}|{3}".format(*args).replace(" ", "-")
+
     return OrderedDict([
+        ("_id", _id),
         ("_timestamp", date_time),
         ("service", service),
         ("volume", volume),
-        ("transaction", transaction_name),
+        ("transaction", transaction),
         ("channel", channel),
     ])
 
