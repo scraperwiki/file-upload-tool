@@ -66,7 +66,7 @@ var errorFromRunlog = function(runlogEntry) {
   var regex = /^(TableError)\(['"](.+)['"],\)$/
   var matches = exception.match(regex)
   if (matches) {
-    showFormattingError(matches[2].replace('No table called', 'No worksheet called'))
+    showFormattingError(matches[2].replace('No table called', 'Could not find a worksheet called'))
     return
   }
 
