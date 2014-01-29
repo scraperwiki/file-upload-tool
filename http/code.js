@@ -1,8 +1,3 @@
-var showUserFilterChoice = function() {
-  $("#filter-choice").show()
-  
-}
-
 // Move this upstream.
 scraperwiki.readSettings = function() {
   try {
@@ -12,9 +7,23 @@ scraperwiki.readSettings = function() {
     try {
       // Try the hash from the container, if it has one?
       return JSON.parse(decodeURIComponent(parent.location.hash.substr(1)))
-    } catch (e) {}    
+    } catch (e) {}
   }
   return null
+}
+
+var addIndefiniteArticle = function(string) {
+  // Returns the given string (eg: "banana") with
+  // a preceding indefinite article (eg: "a banana").
+  if(/^[aeiouhy]/i.test(string)){
+    return 'an ' + string
+  } else {
+    return 'a ' + string
+  }
+}
+
+var showUserFilterChoice = function() {
+  $("#filter-choice").show()
 }
 
 var showUploadButton = function() {
@@ -24,7 +33,7 @@ var showUploadButton = function() {
 var showUploadAnotherButton = function() {
   $("#file-uploaded").show()
 }
-  
+
 var errorGenericNetworkProblem = function(msg, jqXHR, textStatus, errorThrown) {
   // Otherwise, it's an unknown error and we don't (can't) know what to do.
   // Show the user an error and ask them to try again later or report it
@@ -34,27 +43,82 @@ var errorGenericNetworkProblem = function(msg, jqXHR, textStatus, errorThrown) {
     "if the problem persists. <br>Status: " + jqXHR.status + ", "+ textStatus + ", "+errorThrown, "error")
 }
 
+var showFormattingError = function(msg) {
+  $("#formatting-error").show().find(".message").text(msg)
+}
+
+var showUnexpectedError = function(exceptionType, traceback){
+  $('#unexpected-error').show()
+  $('#unexpected-error .exception-type').text(exceptionType)
+  $('#unexpected-error pre').text(traceback)
+}
+
 var errorFromRunlog = function(runlogEntry) {
-  scraperwiki.alert("An error occurred whilst processing the file.", runlogEntry.exception_value, "error")
+  var exception = runlogEntry.exception_value.replace(/u(["'])/g, '$1')
+
+  var regex = /^(MultipleCellsAssertionError|NoCellsAssertionError)\(['"](.+)['"],\)$/
+  var matches = exception.match(regex)
+  if (matches) {
+    showFormattingError(matches[2])
+    return
+  }
+
+  var regex = /^(TableError)\(['"](.+)['"],\)$/
+  var matches = exception.match(regex)
+  if (matches) {
+    showFormattingError(matches[2].replace('No table called', 'Could not find a worksheet called'))
+    return
+  }
+
+  var regex = /^(ReadError)\(['"]Did not recognise(.+)['"],\)$/
+  var matches = exception.match(regex)
+  if (matches) {
+    var msg = "That file was not a spreadsheet"
+
+    var mimeTypeRegex = /MIME type: "(.*)"/
+    var mimeTypeMatches = matches[2].match(mimeTypeRegex)
+    if (mimeTypeMatches) {
+      msg += " (we detected file type: " + mimeTypeMatches[1] + ")."
+    } else {
+      msg += "."
+    }
+    showFormattingError(msg)
+    return
+  }
+
+  var regex = /^(ReadError)\(['"].+Workbook is encrypted.+['"],\)$/
+  var matches = exception.match(regex)
+  if (matches) {
+    showFormattingError('That Excel file was password protected.')
+    return
+  }
+
+  var exceptionType = "an unexpected error"
+  var exceptionTypeRegex = /^(\w+)\(.*\)$/
+  var exceptionTypeMatches = exception.match(exceptionTypeRegex)
+  if(exceptionTypeMatches){
+    exceptionType = addIndefiniteArticle(exceptionTypeMatches[1])
+  }
+  showUnexpectedError(exceptionType, runlogEntry.traceback)
 }
 
 var fetchFiltersAndPopulate = function() {
   return $.ajax({
     "url": "filters.json",
     "dataType": "json"
-  }).done(function(data) {      
+  }).done(function(data) {
     var $select = $("#filter-select")
     $select.find("option")
-    
+
     // Remove placeholder "Loading...", from the HTML.
     $select
       .empty()
       .html("<option></option>")
-    
+
     $.each(data, function(key, value) {
       $select.append($('<option>').val(key).text(value))
     })
-    
+
     $select.attr("disabled", false)
   }).fail(function(jqXHR, textStatus, errorThrown) {
     var m = "Available filters could not be loaded."
@@ -82,23 +146,23 @@ var fetchSettings = function() {
 
 var fetchLastRunlogEntry = function() {
   var dfd = $.Deferred()
-  
+
   var q = "SELECT * from _sw_runlog ORDER BY time DESC LIMIT 1"
   scraperwiki.dataset.sql(q).done(function(data) {
     dfd.resolve(data[0])
-    
+
   }).fail(function(jqXHR, textStatus, errorThrown) {
     if (jqXHR.status == 400 || jqXHR.status == 404) {
       dfd.resolve(null)
       return
     }
-    
+
     var m = "Last runlog entry couldn't be loaded."
     errorGenericNetworkProblem(m, jqXHR, textStatus, errorThrown)
-    
+
     dfd.reject(jqXHR, textStatus, errorThrown)
   })
-  
+
   return dfd.promise()
 }
 
@@ -115,9 +179,9 @@ var onFilterSelection = function() {
 
   var $select = $(this)
   var filterName = $select.children("[value='"+$select.val()+"']").text()
-  
+
   scraperwiki.dataset.name(filterName)
-    
+
   $select.attr("disabled", true)
   $("#filter-saving").show()
   $(".filter-name").text(filterName)
@@ -130,15 +194,15 @@ var onFilterSelection = function() {
       filterName: filterName
     },
     dataType: "json"
-    
+
   }).done(function(data) {
     $("#filter-choice").hide()
     showUploadButton()
-    
+
   }).fail(function(jqXHR, textStatus, errorThrown) {
     var m = "Problem saving filter selection."
     errorGenericNetworkProblem(m, jqXHR, textStatus, errorThrown)
-    
+
     $select.attr("disabled", false)
     $("#filter-saving").hide()
   })
@@ -149,7 +213,7 @@ var onFileUpload = function(){
     $('#upload-button,#upload-another-button')
       .addClass('loading disabled')
       .html("Uploading file&hellip;")
-    setTimeout(function() { $('#up :submit').trigger('click') }, 0)
+    setTimeout(function() { $('#up :submit').trigger('click') }, 250)
   }
 }
 
@@ -160,8 +224,13 @@ $(function(){
   $('#apikey').val(scraperwiki.readSettings().source.apikey)
 
   // listen for selection of new files
-  $('#file').on('change', onFileUpload)  
+  $('#file').on('change', onFileUpload)
   $("#filter-select").on("change", onFilterSelection)
+
+  // listen for clicks on "more details" link in exception messages
+  $(document).on('click', '#unexpected-error .more', function(){
+    $(this).parent().siblings('pre').slideToggle()
+  })
 
   // window.readSettings().filePath will be set
   // if we've just received a new file
@@ -177,26 +246,26 @@ $(function(){
     .done(function(settings, runlogEntry) {
       // Unwrap the 'when'
       settings = settings[0]
-      
+
       if (settings == null || !("filter" in settings)) {
         // Filter hasn't been picked yet
         showUserFilterChoice()
         return
       }
-      
+
       $(".filter-name").text(settings["filterName"])
-      
+
       if (runlogEntry == null) {
         // We've never run before
         showUploadButton()
         return
       }
-      
+
       showUploadAnotherButton()
-      
-      if (runlogEntry.success) {      
+
+      if (runlogEntry.success) {
         if (userJustUploadedSomething) {
-          scraperwiki.alert("Uploaded successfully.", "Have a biscuit", false)
+          $("#success").show()
         }
       } else {
         errorFromRunlog(runlogEntry)
