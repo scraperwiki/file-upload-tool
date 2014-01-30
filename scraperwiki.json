@@ -1,6 +1,6 @@
 {
-  "displayName": "Upload a file",
-  "description": "A secret tool for getting data out of files",
+  "displayName": "Extract reports",
+  "description": "Get data out of files using custom extraction scripts",
   "icon": "https://s3-eu-west-1.amazonaws.com/sw-icons/tool-icon-file.png",
   "color": "#e18e0c"
 }
