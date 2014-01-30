@@ -234,7 +234,7 @@ var showUploadHistory = function() {
         $a.attr('href', row.filepath.replace('/home/http/', ''))
         $a.attr('target', '_blank')
       }
-      $a.append('<span>' + row.time + '</span>')
+      $a.append('<span>' + moment(row.time).fromNow() + '</span>')
       $li.append($a)
 
       $uploadHistory.append($li)
