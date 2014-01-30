@@ -217,6 +217,26 @@ var onFileUpload = function(){
   }
 }
 
+var showUploadHistory = function() {
+  scraperwiki.dataset.sql('select * from _sw_runlog left join _uploads using(run_id) order by time desc;').done(function(data){
+    var $uploadHistory = $('#upload-history')
+    $uploadHistory.show()
+
+    $.each(data, function(i, row) {
+      $li = $('<li>')
+      $a = $('<a>').text(row.filename || '(unknown file)')
+      if(row.filepath) {
+        $a.attr('href', row.filepath.replace('/home/http/', ''))
+        $a.attr('target', '_blank')
+      }
+      $a.append('<span>' + row.time + '</span>')
+      $li.append($a)
+
+      $uploadHistory.append($li)
+    })
+  })
+}
+
 $(function(){
 
   // set up special form inputs
@@ -254,6 +274,8 @@ $(function(){
       }
 
       $(".filter-name").text(settings["filterName"])
+
+      showUploadHistory()
 
       if (runlogEntry == null) {
         // We've never run before
