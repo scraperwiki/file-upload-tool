@@ -63,3 +63,17 @@ body {
 #upload-history span {
   float: right;
 }
+
+#upload-history a {
+  padding-left: 34px;
+  background-position: 10px 50%;
+  background-repeat: no-repeat;
+}
+
+#upload-history .success a {
+  background-image: url(tick.png);
+}
+
+#upload-history .fail a {
+  background-image: url(cross.png);
+}

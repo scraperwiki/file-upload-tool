@@ -224,6 +224,11 @@ var showUploadHistory = function() {
 
     $.each(data, function(i, row) {
       $li = $('<li>')
+      if(row.success) {
+        $li.addClass('success')
+      } else {
+        $li.addClass('fail')
+      }
       $a = $('<a>').text(row.filename || '(unknown file)')
       if(row.filepath) {
         $a.attr('href', row.filepath.replace('/home/http/', ''))
