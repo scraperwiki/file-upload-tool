@@ -55,13 +55,14 @@ body {
 }
 
 #upload-history {
-  width: 600px;
+  width: 500px;
   margin: 50px auto;
   text-align: left;
 }
 
 #upload-history span {
   float: right;
+  color: #999;
 }
 
 #upload-history a {
