@@ -26,18 +26,22 @@ You will first need to create a virtual environment and then
 pip install the filter requirements file.
 
 ```shell
-cd filter/test
+cd /home/tool/filter
 virtualenv venv # creates a virtualenv in the ./venv directory
 . venv/bin/activate
+pip install --upgrade -r ../requirements.txt
 pip install nose -I
 deactivate # need to refresh the virtualenv for correct `nose` to be used 
 . venv/bin/activate
 nosetests
 ```
 
+For convenience these commands are in the script run_tests.sh.
+
 Running the tests thereafter is as simple as doing:
 
 ```shell
-cd filter/test
+cd /home/tool/filter
+. venv/bin/activate
 nosetests
 ```

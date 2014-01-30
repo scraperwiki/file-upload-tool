@@ -16,6 +16,7 @@ body {
   display: none;
 }
 
+#upload-history,
 #success,
 #formatting-error,
 #unexpected-error,
@@ -51,4 +52,34 @@ body {
 
 #unexpected-error .more {
   cursor: pointer;
+}
+
+#upload-history {
+  width: 500px;
+  margin: 50px auto;
+  text-align: left;
+}
+
+#upload-history span {
+  float: right;
+  color: #999;
+}
+
+#upload-history a {
+  padding-left: 34px;
+  background-position: 10px 50%;
+  background-repeat: no-repeat;
+}
+
+#upload-history .success a {
+  background-image: url(tick.png);
+}
+
+#upload-history .fail a {
+  background-image: url(cross.png);
+}
+
+#upload-history .info {
+  background: transparent url(info.png) 100% 50% no-repeat;
+  padding-right: 24px;
 }

@@ -3,7 +3,9 @@
 import os
 os.chdir("/home")
 
-import scraperwiki.runlog; scraperwiki.runlog.setup()
+import scraperwiki
+import scraperwiki.runlog
+run_id = scraperwiki.runlog.setup()
 
 import cgi
 
@@ -15,6 +17,8 @@ import imp
 import json
 import os
 import subprocess
+import datetime
+import time
 
 from os.path import join as pjoin
 
@@ -42,11 +46,25 @@ def main():
     # End of headers
     print
 
-    path = pjoin("/home", "incoming", data["file"].filename)
-    with open(path, "w") as fd:
-       fd.write(data["file"].value)
+    file_name = data['file'].filename
+    dir_name = str(int(time.time()))
 
-    print "Hi, we've uploaded", path
+    dir_path = pjoin('/home', 'http', dir_name)
+    file_path = pjoin(dir_path, file_name)
+
+    os.mkdir(dir_path)
+    with open(file_path, 'w') as fd:
+       fd.write(data['file'].value)
+
+    print "Hi, we've uploaded", file_path
+
+    scraperwiki.sql.save(['run_id'], {
+        'run_id': run_id,
+        'filename': file_name,
+        'filepath': file_path,
+        'datetime': datetime.datetime.utcnow(),
+        'message': ''
+    }, '_uploads')
 
     with open("/home/http/allSettings.json") as fd:
         all_settings = json.load(fd)
@@ -59,9 +77,11 @@ def main():
     module = imp.load_module(module_name, *module_info)
 
     # Invoke its main() function with the path of the file to be processed
-    module.main(path)
+    message = module.main(file_path)
 
     scraperwiki.status('ok')
+    scraperwiki.sql.execute('UPDATE _uploads SET message=? WHERE run_id=?', [message, run_id])
+    scraperwiki.sql.commit()
 
 
 if __name__ == "__main__":
