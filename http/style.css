@@ -78,3 +78,8 @@ body {
 #upload-history .fail a {
   background-image: url(cross.png);
 }
+
+#upload-history .info {
+  background: transparent url(info.png) 100% 50% no-repeat;
+  padding-right: 24px;
+}

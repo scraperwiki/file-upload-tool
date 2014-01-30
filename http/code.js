@@ -234,7 +234,12 @@ var showUploadHistory = function() {
         $a.attr('href', row.filepath.replace('/home/http/', ''))
         $a.attr('target', '_blank')
       }
-      $a.append('<span>' + moment(row.time).fromNow() + '</span>')
+      var toolTipText = row.exception_type || row.message || 'Upload succeeded'
+      $('<span>').text(moment(row.time).fromNow())
+                 .attr('title', toolTipText)
+                 .addClass('info')
+                 .tooltip({placement: 'right'})
+                 .appendTo($a)
       $li.append($a)
 
       $uploadHistory.append($li)
