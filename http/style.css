@@ -16,6 +16,7 @@ body {
   display: none;
 }
 
+#upload-history,
 #success,
 #formatting-error,
 #unexpected-error,
@@ -51,4 +52,14 @@ body {
 
 #unexpected-error .more {
   cursor: pointer;
+}
+
+#upload-history {
+  width: 600px;
+  margin: 50px auto;
+  text-align: left;
+}
+
+#upload-history span {
+  float: right;
 }
