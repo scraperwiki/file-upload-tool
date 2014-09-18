@@ -16,6 +16,7 @@ with open("/home/http/allSettings.json", "w") as fd:
     }
     json.dump(payload, fd)    
 
+print "Content-Type: application/json"
 print
 print '{ "success": "true" }'
 
